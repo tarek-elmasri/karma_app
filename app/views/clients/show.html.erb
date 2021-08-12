@@ -1,0 +1,125 @@
+<h1><%= @client.name %></h1>
+
+<nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+      الفواتير
+    </button>
+    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">
+      تفاصيل العميل
+    </button>
+
+  </div>
+</nav>
+
+
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div class='mt-2 px-2'>
+      <%= link_to "اضافة فاتورة" , new_invoice_path(client_id: @client.id) , class: 'btn btn-sm btn-success' %>
+      <div class='table-responsive mt-2'>
+        <table class='table table-success table-hover'>
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">رقم الفاتورة</th>
+              <th scope="col">تاريخ الفاتورة</th>
+              <th scope="col">قيمة الفاتورة</th>
+              <th scope="col">المبالغ المدفوعة</th>
+              <th scope="col">المبلغ المتبقي</th>
+              <th scope='col'></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%@client.invoices.each do |invoice|%>
+              <tr>
+                <th scope='row'><%= invoice.id %></th>
+                <td><%= invoice.number%> </td>
+                <td><%= invoice.date%></td>
+                <td><%= invoice.value%></td>
+                <td><%= invoice.total_paid%> </td>
+                <td><%= (invoice.value - invoice.total_paid) %></td>
+                <td>
+                  <%= link_to "عرض", invoice_path(invoice), class: 'btn btn-outline-primary btn-sm' %>
+                  <%= link_to "تحديث", edit_invoice_path(invoice), class: 'btn btn-outline-success btn-sm' %>
+                  <%= link_to "سداد", new_payment_path(invoice_id: invoice.id), class: 'btn btn-outline-danger btn-sm' %>
+                </td>
+              </tr>
+            <%end%>
+          
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <div class='mt-2 px-4 border-success'>
+      المنطقة: <%= @client.area %>
+    </div>
+    <hr>
+    <div class='mt-2 px-4 border-success'>
+      عدد الفواتير: <%= @client.invoices.size %>
+    </div>
+    <hr>
+    <div class='mt-2 px-4 border-success'>
+      اجمالي قيمة الفواتير: <%= @client.total_invoice_sum %>
+    </div>
+    <hr>
+    <div class='mt-2 px-4 border-success'>
+      اجمالي المبالغ المسددة:  <%= @client.total_paid %>
+    </div>
+    <hr>
+    <div class='mt-2 px-4 border-success'>
+      <h6>      اجمالي المبالغ المتبقية:  <%= @client.total_remaining %></h6>
+    </div>
+    <hr>
+    <div class='mt-2 px-4 border-success'>
+      الاشخاص المسؤولين: 
+      <div>
+        <%= render partial: 'newChargedPerson' %>
+      </div>
+      
+      <% if @client.charged_persons.count > 0 %>
+        <div class='table-responsive mt-2'>
+          <table class='table table-success table-hover'>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">الاسم</th>
+                <th scope="col">رقم الهاتف</th>
+                <th scope="col">صفته</th>
+                <th scope='col'></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%@client.charged_persons.each do |charged_person|%>
+                <tr>
+                  <th scope='row'><%= charged_person.id %></th>
+                  <td><%= charged_person.name%> </td>
+                  <td><%= charged_person.phone%></td>
+                  <td><%= charged_person.title%></td>
+                  <td>
+                    <%= link_to "تحديث", client_path(@client), class: 'btn btn-outline-primary btn-sm' %>
+                    <%= link_to "حذف", charged_person_path(charged_person),method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+                  </td>
+                </tr>
+              <%end%>
+            
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <div class='my-2 px-4 border-success'>
+      <%= link_to "تحديث بيانات العميل" , edit_client_path(id: @client.id) , class: 'btn btn-primary btn-sm' %>
+    </div> 
+  </div>
+
+  <hr>
+
+  <%= link_to 'عودة', clients_path, class: 'btn btn-primary btn-sm' %>
+  
+</div>

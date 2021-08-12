@@ -1,0 +1,27 @@
+
+ <div>
+
+    <%= form_with model: ChargedPerson.new, url: charged_persons_path , class: "row gy-2 gx-3 align-items-center" do  |form| %>
+
+      <%= form.hidden_field :client_id , value: @client.id %>
+
+      <div class='col-auto my-3'>
+        <%= form.text_field :name, class: 'form-control form-control-sm', placeholder: "الاسم" %>
+      </div>
+
+      <div class='col-auto my-3'>
+        <%= form.text_field :phone, class: 'form-control form-control-sm', placeholder: "رقم الهاتف" %>
+      </div>
+
+      <div class='col-auto my-3'>
+        <%= form.text_field :title, class: 'form-control form-control-sm', placeholder: "الصفة" %>
+      </div>
+
+      <div class='col-auto my-3'>
+        <%= form.submit 'اضافة', class: 'btn btn-success btn-sm' %>
+      </div>
+
+
+    <%end%>
+
+  </div>

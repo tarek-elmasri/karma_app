@@ -1,0 +1,48 @@
+
+<div class='mt-3'>
+  <h3>سداد فاتورة : </h3>
+
+  <div class='m-2'>
+    <p><%= @payment.invoice.client.name %></p>
+    <p>رقم الفاتورة : <%= @payment.invoice.number %></p>
+    <p>قيمة الفاتورة : <%= @payment.invoice.value %></p>
+    <p>المبلغ المتبقي : <%= @payment.invoice.total_remaining %></p>
+  </div>
+  <div class='form-control'>
+
+    <%= form_for @payment , url: payments_path do  |form| %>
+      <% if @payment.errors.any? %>
+        <div class="alert alert-danger" role="alert">
+          <% @payment.errors.full_messages.each do |msg| %>
+            <div><%= '* ' + msg %></div>
+          <% end %>
+        </div>
+      <% end %> 
+
+      <%= form.hidden_field :invoice_id , value: @payment.invoice_id %>
+
+      <div class='m-3'>
+        <%= form.label "المبلغ", class: 'form-label' %>
+        <%= form.text_field :amount, class: 'form-control' %>
+      </div>
+
+      <div class='m-3'>
+        <%= form.label "طريقة السداد", class: 'form-label' %>
+        <%= form.select :payment_method, [['نقدا','cash'], ['تحويل بنكي', 'transfer']], class: 'form-control' %>
+      </div>
+
+      <div class='m-3'>
+        <%= form.label "تاريخ السداد", class: 'form-label' %>
+        <%= form.date_field :date %>
+      </div>
+
+      <div class='m-3 mb-3'>
+        <%= form.submit 'حفظ', class: 'btn btn-success' %>
+        <%= link_to "عودة", client_path(@payment.invoice.client) , class: 'btn btn-primary' %>
+      </div>
+
+
+    <%end%>
+
+  </div>
+</div>

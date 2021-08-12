@@ -1,0 +1,46 @@
+
+
+<h1>
+  قائمة العملاء
+</h1>
+<hr>
+<div>
+  <h6>اجمالي المبيعات: <%= Invoice.total_sales %></h6>
+  <h6>اجمالي المدفوعات: <%= Invoice.total_payments %></h6>
+  <h6>اجمالي المتبقي: <%= Invoice.total_payments_remaining %></h6>
+</div>
+<hr>
+<div class='table-responsive mt-2'>
+  <table class='table table-success table-hover'>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">الاسم</th>
+        <th scope="col">المنطقة</th>
+        <th scope="col">عدد الفواتير</th>
+        <th scope="col">قيمة الفواتير</th>
+        <th scope="col">قيمة المدفوعات</th>
+        <th scope="col">المبلغ المتبقي</th>
+        <th scope='col'></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@clients.each do |client|%>
+        <tr>
+          <th scope='row'><%= client.id %></th>
+          <td><%= client.name%> </td>
+          <td><%= client.area%></td>
+          <td><%= client.invoices.count%></td>
+          <td><%=client.total_invoice_sum%></td>
+          <td><%=client.total_paid%></td>
+          <td><%=client.total_remaining%></td>
+          
+          <td><%= link_to "عرض", client_path(id:client.id), class: 'btn btn-outline-success btn-sm' %></td>
+        </tr>
+      <%end%>
+    
+    </tbody>
+  </table>
+
+  
+</div>
