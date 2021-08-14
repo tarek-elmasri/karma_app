@@ -2,6 +2,8 @@ class Client < ApplicationRecord
   has_many :invoices
   has_many :charged_persons
 
+  scope :total_count, -> {all.count}
+
   validates :name, presence: {message: 'الاسم مطلوب'}
   validates :area, presence: {message: 'المنطقة مطلوبة'}
   
@@ -10,6 +12,9 @@ class Client < ApplicationRecord
     invoices.sum(:value)
   end
 
+  def total_invoices_count
+    invoices.all.count
+  end
 
   def total_paid
     paid = 0
