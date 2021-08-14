@@ -28,7 +28,7 @@
                 <td><%= payment.amount%></td>
                 <td><%= payment.payment_method%></td>
                 <td>
-                  <%= link_to "تعديل", clients_path, class: 'btn btn-outline-primary btn-sm' %>
+                  <%= link_to "تعديل", edit_payment_path(id: payment.id), class: 'btn btn-outline-primary btn-sm' %>
                   <%= link_to "حذف", payment_path(id: payment.id),method: :delete, class: 'btn btn-outline-danger btn-sm' %>
                 </td>
               </tr>

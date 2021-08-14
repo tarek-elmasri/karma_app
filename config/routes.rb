@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  # get 'invoices/new' , to: "invoices#new"
-  # post 'invoices', to: 'invoices#create'
-
-  # get 'clients' , to: "clients#index"
-  # post 'clients', to: 'clients#create'
-  # get 'clients/new' , to: 'clients#new'
-  # get 'clients/show'
 
   root to: 'sessions#log_in'
   post 'sign_in', to: 'sessions#sign_in'
