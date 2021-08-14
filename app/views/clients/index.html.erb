@@ -38,7 +38,18 @@
           <td><%= link_to "عرض", client_path(id:client.id), class: 'btn btn-outline-success btn-sm' %></td>
         </tr>
       <%end%>
-    
+    <tfoot class='table-dark'>
+      <tr>
+        <th>#</th>
+        <td></td>
+        <td></td>
+        <td><%= Invoice.total_count %></td>
+        <td><%= Invoice.total_sales %></td>
+        <td><%= Invoice.total_payments%></td>
+        <td><%= Invoice.total_payments_remaining%></td>
+        <td></td>
+      </tr>
+    </tfoot>
     </tbody>
   </table>
 

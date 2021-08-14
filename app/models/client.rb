@@ -10,6 +10,7 @@ class Client < ApplicationRecord
     invoices.sum(:value)
   end
 
+
   def total_paid
     paid = 0
     invoices.each  do |invoice|
