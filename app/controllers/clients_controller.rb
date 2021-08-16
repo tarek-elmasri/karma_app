@@ -17,6 +17,11 @@ class ClientsController < ApplicationController
 
   end
 
+  def search 
+    redirect_to client_path(id: params[:client][:id])
+  end
+  
+  
   def new
     @client = Client.new
 

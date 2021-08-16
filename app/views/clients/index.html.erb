@@ -8,8 +8,17 @@
   <h6>اجمالي عدد العملاء: <%= Client.total_count %></h6>
   <h6>اجمالي المبيعات: <%= Invoice.total_sales %></h6>
   <h6>اجمالي المدفوعات: <%= Invoice.total_payments %></h6>
+
+  <p class='px-4'>
+    - اجمالي النقدي: <%= Payment.total_cash %><br>
+    - اجمالي التحويل البنكي: <%= Payment.total_transfer %>
+  </p>
   <h6>اجمالي المتبقي: <%= Invoice.total_payments_remaining %></h6>
 </div>
+<hr>
+  <div>
+    <%= render partial: 'search'%>
+  </div>
 <hr>
 <div class='table-responsive mt-2'>
   <table class='table table-success table-hover '>

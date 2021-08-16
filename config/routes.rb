@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   post 'sign_in', to: 'sessions#sign_in'
   delete 'signout', to: 'sessions#destroy'
   resources :clients
+  get 'client_search' , to: 'clients#search', as: 'client_search'
   resources :invoices
   resources :charged_persons
   resources :payments
