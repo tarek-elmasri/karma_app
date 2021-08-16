@@ -3,7 +3,7 @@ class ClientsController < ApplicationController
   before_action :authenticate_user
   before_action :set_client, only: [:show,:edit,:update]
   def index
-    @clients = Client.all
+    @clients = Client.order(id: :asc)
   end
 
   def create
