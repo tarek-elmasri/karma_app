@@ -13,7 +13,7 @@
 
       <div class='m-3'>
         <%= form.label "العميل", class: 'form-label' %>
-        <%= form.select :client_id, Invoice.clients_list ,class: 'form-control' %>
+        <%= form.collection_select :client_id, Client.all , :id , :name ,class: 'form-control' %>
       </div> 
 
       <div class='m-3'>

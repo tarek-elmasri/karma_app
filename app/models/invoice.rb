@@ -2,7 +2,6 @@ class Invoice < ApplicationRecord
   belongs_to :client
   has_many :payments
 
-  #scope :clients_list, -> { Client.select(:id,:name).map{|client| [client.name,client.id]}}
   scope :total_payments, -> {Payment.total_amount}
   scope :total_sales, -> { sum(:value)}
   scope :total_payments_remaining, -> {total_sales - total_payments}

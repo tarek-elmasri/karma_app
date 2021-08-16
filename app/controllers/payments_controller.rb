@@ -25,7 +25,7 @@ class PaymentsController < ApplicationController
   def create 
     @payment = Payment.new(payments_params)
     if @payment.save
-      redirect_to @payment, notice: 'تم اضافة السداد بنجاح'
+      redirect_to @payment.invoice, notice: 'تم اضافة السداد بنجاح'
     else
       render :new
     end
