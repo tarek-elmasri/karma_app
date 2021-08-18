@@ -37,8 +37,8 @@
                 <td><%= invoice.number%> </td>
                 <td><%= invoice.date%></td>
                 <td><%= invoice.value%></td>
-                <td><%= invoice.total_paid%> </td>
-                <td><%= (invoice.value - invoice.total_paid) %></td>
+                <td><%= invoice.payments.total%> </td>
+                <td><%= (invoice.value - invoice.payments.total) %></td>
                 <td>
                   <%= link_to "عرض", invoice_path(invoice), class: 'btn btn-outline-primary btn-sm' %>
                   <%= link_to "تحديث", edit_invoice_path(invoice), class: 'btn btn-outline-success btn-sm' %>
@@ -53,9 +53,9 @@
                 <th>#</th>
                 <td></td>
                 <td></td>
-                <td><%= @client.total_invoice_sum%></td>
-                <td><%= @client.total_paid%></td>
-                <td><%= @client.total_remaining%></td>
+                <td><%= @client.invoices.total_sales%></td>
+                <td><%= @client.invoices.total_payments%></td>
+                <td><%= @client.invoices.total_payments_remaining%></td>
                 <td></td>
               </tr>
             </tfoot>
@@ -71,19 +71,19 @@
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>
-      عدد الفواتير: <%= @client.total_invoices_count %>
+      عدد الفواتير: <%= @client.invoices.count %>
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>
-      اجمالي قيمة الفواتير: <%= @client.total_invoice_sum %>
+      اجمالي قيمة الفواتير: <%= @client.invoices.total_sales %>
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>
-      اجمالي المبالغ المسددة:  <%= @client.total_paid %>
+      اجمالي المبالغ المسددة:  <%= @client.invoices.total_payments %>
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>
-      <h6>      اجمالي المبالغ المتبقية:  <%= @client.total_remaining %></h6>
+      <h6>      اجمالي المبالغ المتبقية:  <%= @client.invoices.total_payments_remaining %></h6>
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>

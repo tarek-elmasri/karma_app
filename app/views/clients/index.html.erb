@@ -5,7 +5,7 @@
 </h1>
 <hr>
 <div>
-  <h6>اجمالي عدد العملاء: <%= Client.total_count %></h6>
+  <h6>اجمالي عدد العملاء: <%= Client.count %></h6>
   <h6>اجمالي المبيعات: <%= Invoice.total_sales %></h6>
   <h6>اجمالي المدفوعات: <%= Invoice.total_payments %></h6>
 
@@ -41,9 +41,9 @@
           <td><%= client.name%> </td>
           <td><%= client.area%></td>
           <td><%= client.invoices.count%></td>
-          <td><%=client.total_invoice_sum%></td>
-          <td><%=client.total_paid%></td>
-          <td><%=client.total_remaining%></td>
+          <td><%=client.invoices.total_sales%></td>
+          <td><%=client.invoices.total_payments%></td>
+          <td><%=client.invoices.total_payments_remaining%></td>
           
           <td><%= link_to "عرض", client_path(id:client.id), class: 'btn btn-outline-success btn-sm' %></td>
         </tr>
@@ -53,7 +53,7 @@
         <th>#</th>
         <td></td>
         <td></td>
-        <td><%= Invoice.total_count %></td>
+        <td><%= Invoice.count %></td>
         <td><%= Invoice.total_sales %></td>
         <td><%= Invoice.total_payments%></td>
         <td><%= Invoice.total_payments_remaining%></td>
