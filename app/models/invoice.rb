@@ -10,7 +10,9 @@ class Invoice < ApplicationRecord
 
 
   #scopes for search
-  scope :in_time_range , -> (start_date , end_date) {where(date: start_date..end_date)}
+  def self.in_time_range(date_range)
+    where(date: date_range[:start_date]..date_range[:end_date])
+  end
   
 
   validates :number, presence: {message:'رقم الفاتورة مطلوب'}, numericality: {only_integer:true, message: 'رقم الفاتورة يجب ان يكون رقم صحيح'}
@@ -22,5 +24,6 @@ class Invoice < ApplicationRecord
   def payments_remaining
     value - payments.total
   end
+
 
 end

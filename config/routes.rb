@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   delete 'signout', to: 'sessions#destroy'
   resources :clients
   get 'client_search' , to: 'clients#search', as: 'client_search'
-  get 'search', to: "searches#new", as: 'new_search'
-  get 'search/clients_search', to: "searches#client_search", as: 'adv_client_search'
+  get 'search/new', to: "searches#new", as: 'new_search'
+  post 'search/create', to: "searches#create", as: 'adv_search'
+  get 'search/clients', to: "searches#clients_search", as: 'adv_client_search'
   resources :invoices
   resources :charged_persons
   resources :payments
