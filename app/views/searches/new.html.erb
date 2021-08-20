@@ -55,7 +55,51 @@
       </h2>
       <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
         <div class="accordion-body">
-          هذه الخدمة غير متوفرة حاليا
+          <div class='form-control'>
+            <%= form_with url: adv_search_path , method: 'POST' do |form| %>
+
+              <%= form.hidden_field :type , value: 'invoice' %>
+
+              <div class='my-3'>
+                <%= form.label "اسم العميل", class: 'form-label' %>
+                <%= form.text_field :client_name , class: 'form-control' %>
+              </div>
+              <div class='my-3'>
+                <%= form.label "المنطقة" , class: 'form-label' %>
+                <%= form.text_field :client_area , class: "form-control" %>
+              </div>
+              <div class='my-3'>
+                <%= form.label "رقم الفاتورة" , class: 'form-label' %>
+                <%= form.text_field :number , class: "form-control" %>
+              </div>
+              <div class='my-3'>
+                <%= form.check_box :remaining_balance   %>
+                <%= form.label :remaining_balance ,  "فواتير غير مكتملة السداد" , class:'form-label' %>
+              </div>
+              <div class='mt-3'>
+                <%= form.label "قيمة الفاتورة :" , class: 'form-label' %>
+              </div>
+              <div>
+                <%= form.label "الحد الأدنى" , class: 'form-label' %>
+                <%= form.text_field :min_value %>
+                <%= form.label "الحد الاقصى" , class: 'form-label' %>
+                <%= form.text_field :max_value  %>
+              </div>
+              <div class="my-3">
+                <%= form.label "فواتير بين الفترة:" , class: 'form-label' %>
+                <div class='px-2'>
+                  <%= form.label 'من' , class: 'form-label' %>
+                  <%= form.date_field :start_date  %>
+                </div>
+                <div class='px-2'>
+                  <%= form.label "الى", class: 'form-label' %>
+                  <%= form.date_field :end_date  %>
+                </div>
+                <div class='my-3'>
+                  <%= form.submit 'بحث' , class: 'btn btn-sm btn-primary' %>
+                </div>
+              </div>
+            <%end%>
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'search/new', to: "searches#new", as: 'new_search'
   post 'search/create', to: "searches#create", as: 'adv_search'
   get 'search/clients', to: "searches#clients_search", as: 'adv_client_search'
+  get 'search/invoices', to: "searches#invoices_search", as: 'adv_invoice_search'
   resources :invoices
   resources :charged_persons
   resources :payments

@@ -1,18 +1,25 @@
 class SearchesController < ApplicationController
 
   def create
-    options = params.permit(:type,:name,:area,:with_payments_remaining,:with_invoices_in_time_range,:invoice_start_date,:invoice_end_date)
-    if params[:type] == 'client'
-      redirect_to adv_client_search_path(options)
+      if params[:type] == 'client'
+      redirect_to adv_client_search_path(client_search_params)
     elsif
       params[:type] == 'invoice'
+      redirect_to adv_invoice_search_path(invoice_search_params)
     end
   end
 
   def clients_search
     @clients= Client.where(nil)
-    filter_search_params.each do |key,value|
+    filter_client_search_params.each do |key,value|
       @clients = @clients.public_send("filter_by_#{key}" , value) if value.present?
+    end
+  end
+
+  def invoices_search
+    @invoices = Invoice.where(nil)
+    filter_invoice_search_params.each do |key,value|
+      @invoices = @invoices.public_send("filter_by_#{key}" , value) if value.present?
     end
   end
 
@@ -21,7 +28,15 @@ class SearchesController < ApplicationController
   end
 
   private
-  def filter_search_params
+  def client_search_params 
+    params.permit(:name,:area,:with_payments_remaining,:with_invoices_in_time_range,:invoice_start_date,:invoice_end_date)
+  end
+
+  def invoice_search_params
+    params.permit(:max_value,:min_value,:start_date,:end_date,:remaining_balance,:number,:client_name,:client_area)
+  end
+
+  def filter_client_search_params
     with_payments_remaining = "" 
     with_payments_remaining = true if params[:with_payments_remaining]=="1"
     date_range=nil
@@ -36,5 +51,31 @@ class SearchesController < ApplicationController
                     }
 
     searchOptions.slice(:name,:area,:remaining_balance, :invoices_in_time_range)
+  end
+
+  def filter_invoice_search_params
+    remaining_balance=""
+    remaining_balance = true if params[:remaining_balance]=="1"
+
+    in_time_range=nil
+    if params[:start_date].present? && params[:end_date].present?
+      in_time_range={start_date: params[:start_date] , end_date: params[:end_date]}
+    end
+
+    value_range=nil
+    if params[:max_value].present? && params[:min_value].present?
+      value_range = {min: params[:min_value], max: params[:max_value]}  
+    end
+
+    searchOptions = {
+                      number: params[:number],
+                      client_name: params[:client_name],
+                      client_area: params[:client_area],
+                      remaining_balance: remaining_balance,
+                      in_time_range: in_time_range,
+                      value_range: value_range
+                    }
+    
+    searchOptions.slice(:number,:client_name,:client_area,:remaining_balance,:in_time_range,:value_range)
   end
 end

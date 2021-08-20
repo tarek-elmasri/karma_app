@@ -1,0 +1,41 @@
+
+<h1>
+  بحث الفواتير
+</h1>
+<hr>
+<div class='table-responsive mt-2'>
+  <table class='table table-success table-hover '>
+    <thead class='table-dark'>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">رقم الفاتورة</th>
+              <th scope="col">تاريخ الفاتورة</th>
+              <th scope="col">قيمة الفاتورة</th>
+              <th scope="col">المبالغ المدفوعة</th>
+              <th scope="col">المبلغ المتبقي</th>
+              <th scope='col'></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%@invoices.each do |invoice|%>
+              <tr>
+                <th scope='row'><%= invoice.id %></th>
+                <td><%= invoice.number%> </td>
+                <td><%= invoice.date%></td>
+                <td><%= invoice.value%></td>
+                <td><%= invoice.payments.total%> </td>
+                <td><%= (invoice.value - invoice.payments.total) %></td>
+                <td>
+                  <%= link_to "عرض", invoice_path(invoice), class: 'btn btn-outline-primary btn-sm' %>
+                  <%= link_to "تحديث", edit_invoice_path(invoice), class: 'btn btn-outline-success btn-sm' %>
+                  <%= link_to "سداد", new_payment_path(invoice_id: invoice.id), class: 'btn btn-outline-danger btn-sm' %>
+                </td>
+              </tr>
+            <%end%>
+          
+          </tbody>
+  </table>
+
+  <%= link_to "بحث جديد" , new_search_path ,class: 'btn btn-sm btn-success' %>
+  <%= link_to "عودة" , clients_path ,class: 'btn btn-sm btn-primary' %>
+</div>
