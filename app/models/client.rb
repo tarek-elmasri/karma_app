@@ -14,6 +14,9 @@ class Client < ApplicationRecord
   end
 
 
+  #select sum(amount) from payments left join invoices on invoices.id=payments.invoice_id left join clients on clients.id=invoices.client_id where 
+  # select clients.*, sum(value) as total_sales, sum(amount) as total_payments from clients left join invoices on invoices.client_id=clients.id left join payments on payments.invoice_id=invoices.id group by clients.id, invoices.id,payments.id order by id;
+
   validates :name, presence: {message: 'الاسم مطلوب'}
   validates :area, presence: {message: 'المنطقة مطلوبة'}
   

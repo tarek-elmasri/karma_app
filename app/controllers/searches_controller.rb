@@ -10,17 +10,50 @@ class SearchesController < ApplicationController
   end
 
   def clients_search
-    @clients= Client.where(nil)
+    query= Client.where(nil)
     filter_client_search_params.each do |key,value|
-      @clients = @clients.public_send("filter_by_#{key}" , value) if value.present?
+      query = query.public_send("filter_by_#{key}" , value) if value.present?
     end
+
+    @clients = []
+    @total_invoices_count = 0
+    @total_sales = 0
+    @total_payments = 0
+    @total_payments_remaining = 0
+    query.each do |client|
+      t_count = client.invoices.count
+      t_total_sales= client.invoices.total_sales
+      t_total_payments = client.invoices.total_payments
+      t_total_payments_remaining = client.invoices.total_payments_remaining
+      @clients << {id: client.id, area: client.area,invoices_count: t_count, total_sales:  t_total_sales,total_payments: t_total_payments,total_payments_remaining: t_total_payments_remaining }
+      @total_invoices_count += t_count
+      @total_sales += t_total_sales
+      @total_payments += t_total_payments
+      @total_payments_remaining += t_total_payments_remaining
+    end
+    
   end
 
   def invoices_search
-    @invoices = Invoice.where(nil)
+    query = Invoice.where(nil)
     filter_invoice_search_params.each do |key,value|
-      @invoices = @invoices.public_send("filter_by_#{key}" , value) if value.present?
+      query = query.public_send("filter_by_#{key}" , value) if value.present?
     end
+
+    @total_sales =0
+    @total_payments = 0
+    @total_remaining = 0
+    @invoices = []
+
+    query.each do |invoice|
+      t_payments = invoice.payments.total
+      t_remaining = invoice.payments_remaining
+      @invoices << {id: invoice.id, number: invoice.number , date: invoice.date, value: invoice.value, total_payments: t_payments, total_remaining: t_remaining}
+      @total_sales += invoice.value
+      @total_payments += t_payments
+      @total_remaining += t_remaining
+    end
+
   end
 
   def new
