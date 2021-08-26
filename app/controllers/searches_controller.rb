@@ -22,10 +22,10 @@ class SearchesController < ApplicationController
     @total_payments_remaining = 0
     query.each do |client|
       t_count = client.invoices.count
-      t_total_sales= client.invoices.total_sales
+      t_total_sales= client.invoices.total_value
       t_total_payments = client.invoices.total_payments
       t_total_payments_remaining = client.invoices.total_payments_remaining
-      @clients << {id: client.id, area: client.area,invoices_count: t_count, total_sales:  t_total_sales,total_payments: t_total_payments,total_payments_remaining: t_total_payments_remaining }
+      @clients << {name: client.name,id: client.id, area: client.area,invoices_count: t_count, total_sales:  t_total_sales,total_payments: t_total_payments,total_payments_remaining: t_total_payments_remaining }
       @total_invoices_count += t_count
       @total_sales += t_total_sales
       @total_payments += t_total_payments

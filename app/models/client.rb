@@ -9,8 +9,8 @@ class Client < ApplicationRecord
   scope :total_invoices_count, -> {joins(:invoices).count(:client_id)}
 
   #scopes for search
-  scope :filter_by_name, -> (name) {where('name LIKE ?' , "%#{name}%") }
-  scope :filter_by_area, -> (area) {where('area LIKE ?' , "%#{area}%")}
+  scope :filter_by_name, -> (name) {where(aq(:name,:matches,name)) }
+  scope :filter_by_area, -> (area) {where(aq(:area,:matches,area))}
   scope :filter_by_invoices_in_time_range, -> (date_range) {joins(:invoices).where(invoices: {date: date_range[:start_date]..date_range[:end_date]}).distinct}
   #sql to get clients with paymetns remaining
   def self.filter_by_remaining_balance(trigger=true)
