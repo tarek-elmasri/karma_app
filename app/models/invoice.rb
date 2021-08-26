@@ -1,6 +1,6 @@
 class Invoice < ApplicationRecord
   # add counter cache after seeding and migrating db
-  belongs_to :client  #counter_cache: :invoices_count
+  belongs_to :client , counter_cache: :invoices_count
   has_many :payments
 
   scope :total_value, -> { sum(:value) }
