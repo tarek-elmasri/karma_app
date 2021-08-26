@@ -10,8 +10,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_user
-    puts "auth user #{Current.user}"
-
     redirect_to root_path, alert: 'الرجاء تسجيل الدخول' unless Current.user.present?
   end
 

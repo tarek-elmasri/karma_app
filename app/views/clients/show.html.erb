@@ -37,8 +37,8 @@
                 <td><%= invoice.number%> </td>
                 <td><%= invoice.date%></td>
                 <td><%= invoice.value%></td>
-                <td><%= invoice.payments.total%> </td>
-                <td><%= (invoice.value - invoice.payments.total) %></td>
+                <td><%= invoice.paid%> </td>
+                <td><%= (invoice.value - invoice.paid) %></td>
                 <td>
                   <%= link_to "عرض", invoice_path(invoice), class: 'btn btn-outline-primary btn-sm' %>
                   <%= link_to "تحديث", edit_invoice_path(invoice), class: 'btn btn-outline-success btn-sm' %>
@@ -53,9 +53,9 @@
                 <th>#</th>
                 <td></td>
                 <td></td>
-                <td><%= @client.invoices.total_sales%></td>
-                <td><%= @client.invoices.total_payments%></td>
-                <td><%= @client.invoices.total_payments_remaining%></td>
+                <td><%= @client.sales%></td>
+                <td><%= @client.paid%></td>
+                <td><%= @client.remaining_balance%></td>
                 <td></td>
               </tr>
             </tfoot>
@@ -71,19 +71,19 @@
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>
-      عدد الفواتير: <%= @client.invoices.count %>
+      عدد الفواتير: <%= @client.invoices_count %>
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>
-      اجمالي قيمة الفواتير: <%= @client.invoices.total_sales %>
+      اجمالي قيمة الفواتير: <%= @client.sales %>
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>
-      اجمالي المبالغ المسددة:  <%= @client.invoices.total_payments %>
+      اجمالي المبالغ المسددة:  <%= @client.paid %>
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>
-      <h6>      اجمالي المبالغ المتبقية:  <%= @client.invoices.total_payments_remaining %></h6>
+      <h6>      اجمالي المبالغ المتبقية:  <%= @client.remaining_balance %></h6>
     </div>
     <hr>
     <div class='mt-2 px-4 border-success'>

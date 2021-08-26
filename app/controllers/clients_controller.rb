@@ -2,8 +2,12 @@ class ClientsController < ApplicationController
 
   before_action :authenticate_user
   before_action :set_client, only: [:show,:edit,:update]
+
+
   def index
-    @clients = Client.order(id: :asc)
+    @clients = Client.order(:id)
+    @totals = @clients.totals
+
   end
 
   def create
@@ -28,7 +32,7 @@ class ClientsController < ApplicationController
   end
 
   def show
-
+    
   end
 
   def edit

@@ -6,4 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.create(name: "hatem" , email: 'hatem259@icloud.com' , password: 'hatem259')
+
+
+
+      clients = Client.order(:id)
+      counter = clients.group_invoices_count_by_id
+      clients.each do |client|
+        client.update({invoices_count: counter[client.id] || 0})
+        client.invoices.each do |invoice|
+          invoice.calculate_client_total_sales
+          invoice.update({paid: invoice.payments.total})
+        end
+      end

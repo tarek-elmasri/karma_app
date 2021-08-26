@@ -5,15 +5,15 @@
 </h1>
 <hr>
 <div>
-  <h6>اجمالي عدد العملاء: <%= Client.count %></h6>
-  <h6>اجمالي المبيعات: <%= Invoice.total_sales %></h6>
-  <h6>اجمالي المدفوعات: <%= Invoice.total_payments %></h6>
+  <h6>اجمالي عدد العملاء: <%= @totals["total_clients_count"] %></h6>
+  <h6>اجمالي المبيعات: <%= @totals["total_sales"] %></h6>
+  <h6>اجمالي المدفوعات: <%= @totals["total_payments"] %></h6>
 
   <p class='px-4'>
     - اجمالي النقدي: <%= Payment.total_cash %><br>
     - اجمالي التحويل البنكي: <%= Payment.total_transfer %>
   </p>
-  <h6>اجمالي المتبقي: <%= Invoice.total_payments_remaining %></h6>
+  <h6>اجمالي المتبقي: <%= @totals["total_remaining_balance"] %></h6>
 </div>
 <hr>
   <div>
@@ -29,7 +29,6 @@
         <th scope="col">المنطقة</th>
         <th scope="col">عدد الفواتير</th>
         <th scope="col">قيمة الفواتير</th>
-        <th scope="col">قيمة المدفوعات</th>
         <th scope="col">المبلغ المتبقي</th>
         <th scope='col'></th>
       </tr>
@@ -40,10 +39,9 @@
           <th scope='row'><%= client.id %></th>
           <td><%= client.name%> </td>
           <td><%= client.area%></td>
-          <td><%= client.invoices.count%></td>
-          <td><%=client.invoices.total_sales%></td>
-          <td><%=client.invoices.total_payments%></td>
-          <td><%=client.invoices.total_payments_remaining%></td>
+          <td><%= client[:invoices_count] %></td>
+          <td><%=client[:sales]%></td></td>
+          <td><%=client[:remaining_balance]%></td>
           
           <td><%= link_to "عرض", client_path(id:client.id), class: 'btn btn-outline-success btn-sm' %></td>
         </tr>
@@ -53,10 +51,9 @@
         <th>#</th>
         <td></td>
         <td></td>
-        <td><%= Invoice.count %></td>
-        <td><%= Invoice.total_sales %></td>
-        <td><%= Invoice.total_payments%></td>
-        <td><%= Invoice.total_payments_remaining%></td>
+        <td><%= @totals["total_invoices_count"] %></td>
+        <td><%= @totals["total_sales"] %></td>
+        <td><%= @totals["total_remaining_balance"]%></td>
         <td></td>
       </tr>
     </tfoot>

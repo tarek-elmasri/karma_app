@@ -1,5 +1,6 @@
 class Invoice < ApplicationRecord
-  belongs_to :client
+  # add counter cache after seeding and migrating db
+  belongs_to :client , counter_cache: :invoices_count
   has_many :payments
 
   scope :total_sales, -> { sum(:value) }
@@ -23,16 +24,21 @@ class Invoice < ApplicationRecord
   validates :client_id , presence: {message: "العميل مطلوب"}
   validates :date , presence: {message: 'تاريخ الفاتورة مطلوب'}
 
-  #testing
-  scope :h_total_sales, lambda {
-    select(Invoice.arel_table[:value].sum.as("total_sales"))
-  }
-  scope :h_total_payments, lambda {
-    joins(:payments).select(Payment.arel_table[:amount].sum.as("total_payments"))
-  }
+  after_save :calculate_client_total_sales
+
+
+
+
   def payments_remaining
     value - payments.total
   end
 
+  def calculate_client_total_sales
+    client.update({
+      sales: client.invoices.total_sales ,
+      remaining_balance: (client.invoices.sum(:value) - client.invoices.joins(:payments).sum(:amount)),
+      paid: client.invoices.joins(:payments).sum(:amount)
+      })
+  end
 
 end

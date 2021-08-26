@@ -2,9 +2,6 @@ class InvoicesController < ApplicationController
 
   before_action :authenticate_user
   before_action :set_invoice , only: [:show, :edit,:update]
-  def index
-    @invoices= Invoice.order(:created_at, 'DESC')
-  end
 
   def new
     @invoice= Invoice.new(client_id: params[:client_id] || nil)
