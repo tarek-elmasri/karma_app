@@ -10,7 +10,7 @@
 
 
       clients = Client.order(:id)
-      counter = clients.group_invoices_count_by_id
+      counter = clients.joins(:invoices).group(:id).count
       clients.each do |client|
         client.update({invoices_count: counter[client.id] || 0})
         client.invoices.each do |invoice|
