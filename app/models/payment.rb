@@ -16,4 +16,6 @@ class Payment < ApplicationRecord
     invoice.update_attribute(:paid, invoice.payments.total)
   end
 
+
+
 end

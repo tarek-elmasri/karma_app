@@ -25,9 +25,9 @@
           <td><%= client[:name]%> </td>
           <td><%= client[:area]%></td>
           <td><%= client[:invoices_count]%></td>
-          <td><%=client[:sales]%></td>
-          <td><%=client[:paid]%></td>
-          <td><%=client[:remaining_balance]%></td>
+          <td><%=client[:total_sales]%></td>
+          <td><%=client[:total_payments]%></td>
+          <td><%=client[:total_payments_remaining]%></td>
           <td><%= link_to "عرض", client_path(id:client[:id]), class: 'btn btn-outline-success btn-sm' %></td>
         </tr>
       <%end%>
@@ -37,10 +37,10 @@
         <th>#</th>
         <td></td>
         <td></td>
-        <td><%= @totals[:total_invoices_count]%></td>
-        <td><%= @totals[:total_sales]%></td>
-        <td><%= @totals[:total_payments]%></td>
-        <td><%= @totals[:total_remaining_balance]%></td>
+        <td><%= @total_invoices_count%></td>
+        <td><%= @total_sales%></td>
+        <td><%= @total_payments%></td>
+        <td><%= @total_payments_remaining%></td>
         <td></td>
       </tr>
     </tfoot>

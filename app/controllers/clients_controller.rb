@@ -7,7 +7,6 @@ class ClientsController < ApplicationController
   def index
     @clients = Client.order(:id)
     @totals = @clients.totals
-
   end
 
   def create
