@@ -79,6 +79,9 @@ GEM
     ffi (1.15.3-x64-mingw32)
     globalid (0.5.2)
       activesupport (>= 5.0)
+    has_scope (0.8.0)
+      actionpack (>= 5.2)
+      activesupport (>= 5.2)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.2)
@@ -194,6 +197,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   capybara (>= 2.15)
+  has_scope
   jbuilder (~> 2.7)
   pg
   puma (~> 4.1)

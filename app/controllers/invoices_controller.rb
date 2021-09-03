@@ -3,6 +3,23 @@ class InvoicesController < ApplicationController
   before_action :authenticate_user
   before_action :set_invoice , only: [:show, :edit,:update]
 
+  has_scope :filter_by_client_name , as: :client_name
+  has_scope :filter_by_client_area , as: :client_area
+  has_scope :filter_by_number , as: :number
+  has_scope :filter_by_remaining_balance , as: :remaining_balance, type: :boolean
+  has_scope :filter_by_value_range, as: :value_between , using: %i[min_value max_value] , type: :hash
+  has_scope :filter_by_in_time_range , as: :invoices_between , using: %i[start_date end_date], type: :hash
+
+  def index
+    begin
+      @invoices = apply_scopes(Invoice).all
+      @totals= @invoices.totals
+      @invoices = @invoices.select_all_columns.select_client_name.order(date: :desc)
+    rescue Exception => e 
+      redirect_to new_search_path,alert: "حدث خطأ أثناء البحث"
+    end
+  end
+
   def new
     @invoice= Invoice.new(client_id: params[:client_id] || nil)
   end

@@ -16,10 +16,14 @@
   <h6>اجمالي المتبقي: <%= @totals[:sales] - @totals[:payments] %></h6>
 </div>
 <hr>
-  <div>
+  <%
+=begin%>
+ <div>
     <%= render partial: 'clients/partials/search'%>
   </div>
-<hr>
+<hr> 
+<%
+=end%>
 <div class='table-responsive mt-2'>
   <table class='table table-success table-hover '>
     <thead class='table-dark'>

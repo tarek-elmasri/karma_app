@@ -1,1 +1,54 @@
-<h1>Invoices</h1>
+
+<h1>
+  بحث الفواتير
+</h1>
+<hr>
+<div class='table-responsive mt-2'>
+  <table class='table table-success table-hover '>
+    <thead class='table-dark'>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">العميل</th>
+              <th scope="col">رقم الفاتورة</th>
+              <th scope="col">تاريخ الفاتورة</th>
+              <th scope="col">قيمة الفاتورة</th>
+              <th scope="col">المبالغ المدفوعة</th>
+              <th scope="col">المبلغ المتبقي</th>
+              <th scope='col'></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%@invoices.each_with_index do |invoice , idx|%>
+              <tr>
+                <th scope='row'><%= idx+1 %></th>
+                <td><%= invoice["name"]%> </td>
+                <td><%= invoice[:number]%> </td>
+                <td><%= invoice[:date]%></td>
+                <td><%= invoice[:value]%></td>
+                <td><%= invoice[:paid] || 0.0%> </td>
+                <td><%= invoice[:value] - (invoice[:paid] || 0.0) %></td>
+                <td>
+                  <%= link_to "عرض", invoice_path(id: invoice[:id]), class: 'btn btn-outline-primary btn-sm' %>
+                  <%= link_to "تحديث", edit_invoice_path(id: invoice[:id]), class: 'btn btn-outline-success btn-sm' %>
+                  <%= link_to "سداد", new_payment_path(invoice_id: invoice[:id]), class: 'btn btn-outline-danger btn-sm' %>
+                </td>
+              </tr>
+            <%end%>
+          </tbody>
+          <tfoot class='table-dark'>
+            <tr>
+              <th>#</th>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td><%= @totals[:value] %></td>
+              <td><%= @totals[:payments] %></td>
+              <td><%= @totals[:remaining_balance]%></td>
+              <td></td>
+            </tr>
+          </tfoot>
+  </table>
+
+  <%= link_to "بحث جديد" , new_search_path ,class: 'btn btn-sm btn-success' %>
+  <%= link_to "عودة" , clients_path ,class: 'btn btn-sm btn-primary' %>
+</div>

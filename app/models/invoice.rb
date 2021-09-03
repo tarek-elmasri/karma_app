@@ -12,70 +12,33 @@ class Invoice < ApplicationRecord
 
   scope :filter_by_remaining_balance, lambda {where(arel_table[:value].gt(arel_table[:paid]))}
   scope :select_client_name, lambda {joins(:client).select(Client.arel_table[:name])}
-
-  def self.filter_by_value_range(min,max) 
-    where(value: min..max)
-  end
-
-  def self.filter_by_number(number) 
-    where(number: number)
-  end
-
-  def self.filter_by_client_name(name) 
+  scope :filter_by_value_range , lambda {|min , max| where(value: min..max) }
+  scope :filter_by_number , lambda { |number| where(number: number)}
+  scope :filter_by_client_name , lambda { |name| 
     joins(:client)
-    .where(Client.aq(:name , :matches , "%#{name}%"))
-  end
-  
-  def self.filter_by_client_area(area)
+    .where(Client.aq(:name , :matches , "%#{name}%"))  
+  }
+  scope :filter_by_client_area , lambda { |area| 
     joins(:client)
-    .where(Client.aq(:area, :matches , "%#{area}%"))
-  end
-  
-  def self.filter_by_in_time_range(start_date,end_date) 
-    where(date: start_date..end_date)
-  end
-
-  def self.search(options)
-    instance = self
-    instance = instance.filter_by_client_name(options[:client_name]) unless options[:client_name].blank?
-    instance = instance.filter_by_client_area(options[:client_area]) unless options[:client_area].blank?
-    instance = instance.filter_by_number(options[:number]) unless options[:number].blank?
-    instance = instance.filter_by_remaining_balance unless options[:remaining_balance] == "0"
-    
-    if options[:min_value].present? && options[:max_value].present?
-      instance = instance.filter_by_value_range(options[:min_value] , options[:max_value])
-    end
-
-    if options[:start_date].present? && options[:end_date].present?
-      instance = instance.filter_by_in_time_range(options[:start_date] ,options[:end_date])
-    end
-
-    return instance
-  end
-
-  def self.totals 
+    .where(Client.aq(:area, :matches , "%#{area}%"))  
+  }
+  scope :filter_by_in_time_range , lambda { |start_date , end_date|  where(date: start_date..end_date) }
+  scope :totals , lambda {
     data= select(aq(:value , :sum).as("total_value"))
-      .select(aq(:paid, :sum).as("total_payments"))
-      .unscope(:order)
-      .unscope(:group)
-      .to_a
-      .first
+    .select(aq(:paid, :sum).as("total_payments"))
+    .unscope(:order)
+    .unscope(:group)
+    .to_a
+    .first
 
     return {
       value: data["total_value"],
       payments: data["total_payments"],
       remaining_balance: (data["total_value"] || 0.0) - (data["total_payments"] || 0.0)
     }
-  end
+  }
 
-  #scopes for search
-  # scope :total_value, -> { sum(:value) }
-  # scope :total_payments, -> {sum(:paid)}
-  # scope :total_payments_remaining, -> {total_value - total_payments}
-  # scope :with_cash_payments, -> {joins(:payments).where('payments.payment_method = ?', "cash").distinct}
-  # scope :with_transfer_payments, -> {joins(:payments).where('payments.payment_method = ?', "transfer").distinct}
-
-
+  #---------------------------------------------
   def payments_remaining
     value - payments.total
   end

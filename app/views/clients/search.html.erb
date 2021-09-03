@@ -19,15 +19,15 @@
       </tr>
     </thead>
     <tbody>
-      <%@clients.each do |client|%>
+      <%@clients.each_with_index do |client , idx|%>
         <tr>
-          <th scope='row'><%= client[:id] %></th>
+          <th scope='row'><%= idx+1 %></th>
           <td><%= client[:name]%> </td>
           <td><%= client[:area]%></td>
-          <td><%= client[:invoices_count]%></td>
-          <td><%=client[:total_sales]%></td>
-          <td><%=client[:total_payments]%></td>
-          <td><%=client[:total_payments_remaining]%></td>
+          <td><%= client[:invoices_count] || 0%></td>
+          <td><%=client[:sales] || 0.0 %></td>
+          <td><%=client[:paid] || 0.0 %></td>
+          <td><%= client[:remaining_balance] || 0.0%></td>
           <td><%= link_to "عرض", client_path(id:client[:id]), class: 'btn btn-outline-success btn-sm' %></td>
         </tr>
       <%end%>
@@ -37,10 +37,10 @@
         <th>#</th>
         <td></td>
         <td></td>
-        <td><%= @total_invoices_count%></td>
-        <td><%= @total_sales%></td>
-        <td><%= @total_payments%></td>
-        <td><%= @total_payments_remaining%></td>
+        <td><%= @totals[:invoices_count]%></td>
+        <td><%= @totals[:sales]%></td>
+        <td><%= @totals[:payments]%></td>
+        <td><%= @totals[:remaining_balance]%></td>
         <td></td>
       </tr>
     </tfoot>
