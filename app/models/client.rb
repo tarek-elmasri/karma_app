@@ -33,10 +33,10 @@ class Client < ApplicationRecord
     }
   }
 
-  def self.filter_by_invoices_in_time_range(date_range) 
+  def self.filter_by_invoices_in_time_range(start_date,end_date) 
     filtered_invoices = Invoice.arel_table
       .project(Invoice.arel_table[:client_id])
-      .where(Invoice.arel_table[:date].between(date_range[:start_date]..date_range[:end_date]))
+      .where(Invoice.arel_table[:date].between(start_date..end_date))
       .group(Invoice.arel_table[:client_id])
       .as("filtered_invoices")
 
@@ -55,9 +55,8 @@ class Client < ApplicationRecord
     instance = instance.filter_by_area(options[:area]) unless options[:area].blank?
     instance = instance.filter_by_remaining_balance if options[:with_payments_remaining] == "1"
 
-    if options[:with_invoices_in_time_range]=="1" && options[:invoice_start_date].present? && options[:invoice_end_date].present?
-      date_range = {:start_date => options[:invoice_start_date].to_date , :end_date => options[:invoice_end_date].to_date } 
-      instance = instance.filter_by_invoices_in_time_range(date_range)
+    if options[:invoice_start_date].present? && options[:invoice_end_date].present?
+      instance = instance.filter_by_invoices_in_time_range(options[:invoice_start_date] , options[:invoice_end_date])
     end
 
     instance= instance.order(:id)

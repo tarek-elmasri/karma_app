@@ -23,7 +23,7 @@ class SearchesController < ApplicationController
     begin
       @invoices = Invoice.search(params)
       @totals = @invoices.totals
-      @invoices = @invoices.select_all_columns.select_client_name
+      @invoices = @invoices.select_all_columns.select_client_name.order(date: :desc)
     rescue Exception => e 
       redirect_to new_search_path,alert: 'حدث خطا اتناء البحث'
     end

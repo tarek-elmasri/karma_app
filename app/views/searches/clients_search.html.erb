@@ -19,9 +19,9 @@
       </tr>
     </thead>
     <tbody>
-      <%@clients.each do |client|%>
+      <%@clients.each_with_index do |client , idx|%>
         <tr>
-          <th scope='row'><%= client[:id] %></th>
+          <th scope='row'><%= idx+1 %></th>
           <td><%= client[:name]%> </td>
           <td><%= client[:area]%></td>
           <td><%= client[:invoices_count] || 0%></td>

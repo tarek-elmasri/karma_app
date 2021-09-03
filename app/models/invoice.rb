@@ -13,8 +13,8 @@ class Invoice < ApplicationRecord
   scope :filter_by_remaining_balance, lambda {where(arel_table[:value].gt(arel_table[:paid]))}
   scope :select_client_name, lambda {joins(:client).select(Client.arel_table[:name])}
 
-  def self.filter_by_value_range(range) 
-    where(value: range[:min]..range[:max])
+  def self.filter_by_value_range(min,max) 
+    where(value: min..max)
   end
 
   def self.filter_by_number(number) 
@@ -31,8 +31,8 @@ class Invoice < ApplicationRecord
     .where(Client.aq(:area, :matches , "%#{area}%"))
   end
   
-  def self.filter_by_in_time_range(date_range) 
-    where(date: date_range[:start_date]..date_range[:end_date])
+  def self.filter_by_in_time_range(start_date,end_date) 
+    where(date: start_date..end_date)
   end
 
   def self.search(options)
@@ -43,11 +43,11 @@ class Invoice < ApplicationRecord
     instance = instance.filter_by_remaining_balance unless options[:remaining_balance] == "0"
     
     if options[:min_value].present? && options[:max_value].present?
-      instance = instance.filter_by_value_range({min: options[:min_value] , max: options[:max_value]})
+      instance = instance.filter_by_value_range(options[:min_value] , options[:max_value])
     end
 
     if options[:start_date].present? && options[:end_date].present?
-      instance = instance.filter_by_in_time_range({start_date: options[:start_date].to_date , end_date: options[:end_date].to_date})
+      instance = instance.filter_by_in_time_range(options[:start_date] ,options[:end_date])
     end
 
     return instance

@@ -31,9 +31,9 @@
             </tr>
           </thead>
           <tbody>
-            <%@client.invoices.each do |invoice|%>
+            <%@client.invoices.each_with_index do |invoice, idx|%>
               <tr>
-                <th scope='row'><%= invoice.id %></th>
+                <th scope='row'><%= idx+1 %></th>
                 <td><%= invoice.number%> </td>
                 <td><%= invoice.date%></td>
                 <td><%= invoice.value%></td>

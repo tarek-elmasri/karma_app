@@ -18,9 +18,9 @@
             </tr>
           </thead>
           <tbody>
-            <%@invoices.each do |invoice|%>
+            <%@invoices.each_with_index do |invoice , idx|%>
               <tr>
-                <th scope='row'><%= invoice[:id] %></th>
+                <th scope='row'><%= idx+1 %></th>
                 <td><%= invoice["name"]%> </td>
                 <td><%= invoice[:number]%> </td>
                 <td><%= invoice[:date]%></td>
