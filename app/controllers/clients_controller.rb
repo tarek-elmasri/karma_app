@@ -3,7 +3,6 @@ class ClientsController < ApplicationController
   before_action :authenticate_user
   before_action :set_client, only: [:show,:edit,:update]
 
-
   def index
     @clients = Client.order(:id)
     @totals = @clients.totals
@@ -17,7 +16,6 @@ class ClientsController < ApplicationController
     else
       render :new 
     end
-
   end
 
   def search 
@@ -27,15 +25,12 @@ class ClientsController < ApplicationController
   
   def new
     @client = Client.new
-
   end
 
   def show
-    
   end
 
   def edit
-
   end
 
   def update

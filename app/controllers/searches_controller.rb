@@ -13,36 +13,23 @@ class SearchesController < ApplicationController
   def clients_search
     begin
       @clients= Client.search(params)
-      @totals = Client.where(id: @clients.ids).totals
+      @totals = @clients.totals
     rescue Exception => e 
       redirect_to new_search_path,alert: 'حدث خطا اتناء البحث'
     end
   end
 
   def invoices_search
-    query = Invoice.where(nil)
-    filter_invoice_search_params.each do |key,value|
-      query = query.public_send("filter_by_#{key}" , value) if value.present?
+    begin
+      @invoices = Invoice.search(params)
+      @totals = @invoices.totals
+      @invoices = @invoices.select_all_columns.select_client_name
+    rescue Exception => e 
+      redirect_to new_search_path,alert: 'حدث خطا اتناء البحث'
     end
-
-    @total_sales =0
-    @total_payments = 0
-    @total_remaining = 0
-    @invoices = []
-
-    query.each do |invoice|
-      t_payments = invoice.payments.total
-      t_remaining = invoice.payments_remaining
-      @invoices << {id: invoice.id, number: invoice.number , date: invoice.date, value: invoice.value, total_payments: t_payments, total_remaining: t_remaining}
-      @total_sales += invoice.value
-      @total_payments += t_payments
-      @total_remaining += t_remaining
-    end
-
   end
 
   def new
-
   end
 
   private

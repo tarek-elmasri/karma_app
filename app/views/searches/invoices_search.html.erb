@@ -8,6 +8,7 @@
     <thead class='table-dark'>
             <tr>
               <th scope="col">#</th>
+              <th scope="col">العميل</th>
               <th scope="col">رقم الفاتورة</th>
               <th scope="col">تاريخ الفاتورة</th>
               <th scope="col">قيمة الفاتورة</th>
@@ -20,11 +21,12 @@
             <%@invoices.each do |invoice|%>
               <tr>
                 <th scope='row'><%= invoice[:id] %></th>
+                <td><%= invoice["name"]%> </td>
                 <td><%= invoice[:number]%> </td>
                 <td><%= invoice[:date]%></td>
                 <td><%= invoice[:value]%></td>
-                <td><%= invoice[:total_payments]%> </td>
-                <td><%= invoice[:total_remaining] %></td>
+                <td><%= invoice[:paid] || 0.0%> </td>
+                <td><%= invoice[:value] - (invoice[:paid] || 0.0) %></td>
                 <td>
                   <%= link_to "عرض", invoice_path(id: invoice[:id]), class: 'btn btn-outline-primary btn-sm' %>
                   <%= link_to "تحديث", edit_invoice_path(id: invoice[:id]), class: 'btn btn-outline-success btn-sm' %>
@@ -38,9 +40,10 @@
               <th>#</th>
               <td></td>
               <td></td>
-              <td><%= @total_sales %></td>
-              <td><%= @total_payments %></td>
-              <td><%= @total_remaining%></td>
+              <td></td>
+              <td><%= @totals[:value] %></td>
+              <td><%= @totals[:payments] %></td>
+              <td><%= @totals[:remaining_balance]%></td>
               <td></td>
             </tr>
           </tfoot>

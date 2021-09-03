@@ -8,7 +8,6 @@ class PaymentsController < ApplicationController
   end
 
   def show 
-
   end
 
   def destroy
@@ -32,7 +31,6 @@ class PaymentsController < ApplicationController
   end
 
   def edit
-
   end
 
   def update
@@ -41,7 +39,6 @@ class PaymentsController < ApplicationController
     else
       render :edit
     end
-
   end
 
   private
