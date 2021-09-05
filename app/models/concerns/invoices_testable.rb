@@ -15,7 +15,7 @@ module InvoicesTestable extend ActiveSupport::Concern
       average = Invoice.where(Invoice.arel_table[:date].between(last_month.ago(2.month)..last_month.end_of_month))
         .sum(:value)
 
-      result = average / 3
+      result = (average / 3).to_i
     end
 
     def for_month(month=Date.today.month)
