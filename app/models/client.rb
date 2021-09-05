@@ -13,7 +13,7 @@ class Client < ApplicationRecord
   scope :filter_by_name, -> (name) {where(aq(:name,:matches,"%#{name}%")) }
   scope :filter_by_area, -> (area) {where(aq(:area,:matches,"%#{area}%"))}
   scope :filter_by_remaining_balance, -> {where(aq(:remaining_balance,:gt,"0"))}
-
+  scope :where_ids_in, -> (ids)  { where(id: ids)}
   scope :totals, lambda {
     data =  select(aq(:sales,:sum).as("total_sales"))
       .select(aq(:paid,:sum).as("total_payments"))

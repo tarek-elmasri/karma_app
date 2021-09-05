@@ -9,7 +9,8 @@ class InvoicesController < ApplicationController
   has_scope :filter_by_remaining_balance , as: :remaining_balance, type: :boolean
   has_scope :filter_by_value_range, as: :value_between , using: %i[min_value max_value] , type: :hash
   has_scope :filter_by_in_time_range , as: :invoices_between , using: %i[start_date end_date], type: :hash
-
+  has_scope :not_full_paid_since 
+  
   def index
     begin
       @invoices = apply_scopes(Invoice).all

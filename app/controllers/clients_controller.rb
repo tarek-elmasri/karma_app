@@ -7,6 +7,8 @@ class ClientsController < ApplicationController
   has_scope :filter_by_area , as: :area
   has_scope :filter_by_remaining_balance , as: :with_payments_remaining , type: :boolean
   has_scope :filter_by_invoices_in_time_range, as: :invoices_between, using: %i[start_date end_date ] , type: :hash
+  has_scope :where_ids_in, as: :ids, type: :array
+
 
   def index
     @clients = Client.order(:id)
