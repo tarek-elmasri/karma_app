@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
     if @user&.authenticate(params[:user][:password])
       session[:user_id] = @user.id 
       Current.user = @user
-      redirect_to clients_path , notice: "تم تسجيل دخولك بنجاح #{@user.name}"
+      redirect_to main_path
     else
       redirect_to root_path, alert: 'البريد الالكتروني او كلمة المرور غير صحيحة'
     end

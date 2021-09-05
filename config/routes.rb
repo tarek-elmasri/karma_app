@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   root to: 'sessions#log_in'
-
+  get "main", to: "main#index", as: "main"
 
   post 'sign_in', to: 'sessions#sign_in'
   delete 'signout', to: 'sessions#destroy'

@@ -1,4 +1,5 @@
 class Client < ApplicationRecord
+  include Testable
   has_many :invoices
   has_many :charged_persons
   has_many :payments , through: :invoices
@@ -48,5 +49,6 @@ class Client < ApplicationRecord
     )
   }
 
-  
+  #--------------------------------
+
 end

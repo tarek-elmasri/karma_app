@@ -1,5 +1,5 @@
 class Invoice < ApplicationRecord
-  
+  include InvoicesTestable
   belongs_to :client , counter_cache: :invoices_count
   has_many :payments
 
@@ -10,6 +10,8 @@ class Invoice < ApplicationRecord
 
   after_save :calculate_client_total_sales
 
+  scope :total_value , lambda { sum(:value)}
+  scope :total_paid, lambda { sum(:paid)}
   scope :filter_by_remaining_balance, lambda {where(arel_table[:value].gt(arel_table[:paid]))}
   scope :select_client_name, lambda {joins(:client).select(Client.arel_table[:name])}
   scope :filter_by_value_range , lambda {|min , max| where(value: min..max) }
@@ -45,7 +47,7 @@ class Invoice < ApplicationRecord
 
   def calculate_client_total_sales
     client.update({
-      sales: client.invoices.total_value ,
+      sales: client.invoices.sum(:value) ,
       remaining_balance: (client.invoices.sum(:value) - client.invoices.joins(:payments).sum(:amount)),
       paid: client.invoices.joins(:payments).sum(:amount)
       })
