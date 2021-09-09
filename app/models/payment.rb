@@ -7,14 +7,16 @@ class Payment < ApplicationRecord
   scope :total_transfer, -> {where(payment_method: 'transfer').sum(:amount) }
 
   after_save :reset_calculation
+  after_destroy :reset_calculation
 
   validates :amount, presence: {message: 'المبلغ المدفوع مطلوب'} , numericality: {message: "المبلغ يجب ان يكون رقم"}
   validates :payment_method , presence: {message: 'طريقة السداد مطلوبة'} , inclusion: { in: ['cash', 'transfer'] , message: 'طريقة السداد اما نقدا او تحويل بنكي'}
   validates :date , presence: {message: 'تاريخ السداد مطلوب'}
 
   def reset_calculation
-    invoice.update_attribute(:paid, invoice.payments.total)
+    invoice.update(paid: invoice.payments.total)
   end
+
 
 
 #------

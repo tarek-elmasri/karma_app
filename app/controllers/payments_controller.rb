@@ -12,7 +12,7 @@ class PaymentsController < ApplicationController
 
   def destroy
     invoice = @payment.invoice
-    if @payment.delete 
+    if @payment.destroy 
       flash[:notice]= 'تم حذف السداد بنجاح'
     else
       falsh[:alert]= 'خطا اثناء حذف سداد'

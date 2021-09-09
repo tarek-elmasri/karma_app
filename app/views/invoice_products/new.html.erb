@@ -1,0 +1,33 @@
+<h3>اضافة المنتجات</h3>
+<p>لفاتورة رقم : <%= @invoice_product.invoice_id %></p>
+ <div class='form-control'>
+
+    <%= form_for @invoice_product , url: invoice_invoice_products_path do  |form| %>
+      <% if @invoice_product.errors.any? %>
+        <div class="alert alert-danger" role="alert">
+          <% @invoice_product.errors.full_messages.each do |msg| %>
+            <div><%= '* ' + msg %></div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class='m-3'>
+        <%= form.label "المنتج", class: 'form-label' %>
+        <%= form.collection_select :product_id, Product.all, :id , :name ,class: 'form-control' %>
+      </div> 
+
+      <div class='m-3'>
+        <%= form.label "الكمية", class: 'form-label' %>
+        <%= form.number_field :quantity, class: 'form-control' %>
+      </div>
+
+      <div class='m-3 mb-3'> 
+
+        <%= form.submit 'حفظ', class: 'btn btn-success' %>
+        <%= link_to "عودة", invoice_path(@invoice) , class: 'btn btn-primary' %>
+      </div>
+
+
+    <%end%>
+
+  </div>

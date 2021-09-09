@@ -10,6 +10,8 @@ class InvoicesController < ApplicationController
   has_scope :filter_by_value_range, as: :value_between , using: %i[min_value max_value] , type: :hash
   has_scope :filter_by_in_time_range , as: :invoices_between , using: %i[start_date end_date], type: :hash
   has_scope :not_full_paid_since 
+
+  include ApplicationHelper
   
   def index
     begin
@@ -36,6 +38,7 @@ class InvoicesController < ApplicationController
   end
 
   def show
+    @products= @invoice.invoice_products
   end
 
   def edit

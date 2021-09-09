@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_26_072116) do
+ActiveRecord::Schema.define(version: 2021_09_06_001529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,16 @@ ActiveRecord::Schema.define(version: 2021_08_26_072116) do
     t.float "paid", default: 0.0
   end
 
+  create_table "invoice_products", force: :cascade do |t|
+    t.bigint "invoice_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["invoice_id"], name: "index_invoice_products_on_invoice_id"
+    t.index ["product_id"], name: "index_invoice_products_on_product_id"
+  end
+
   create_table "invoices", force: :cascade do |t|
     t.bigint "client_id", null: false
     t.integer "number", null: false
@@ -57,6 +67,16 @@ ActiveRecord::Schema.define(version: 2021_08_26_072116) do
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "name", null: false
+    t.float "price", null: false
+    t.string "img"
+    t.text "description", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "active", default: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -66,6 +86,8 @@ ActiveRecord::Schema.define(version: 2021_08_26_072116) do
   end
 
   add_foreign_key "charged_people", "clients"
+  add_foreign_key "invoice_products", "invoices"
+  add_foreign_key "invoice_products", "products"
   add_foreign_key "invoices", "clients"
   add_foreign_key "payments", "invoices"
 end

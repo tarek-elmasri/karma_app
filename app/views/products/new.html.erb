@@ -1,0 +1,45 @@
+
+<div class='mt-3'>
+  <h3>اضافة منتج جديد : </h3>
+  <div class='form-control'>
+
+    <%= form_for @product , url: products_path do  |form| %>
+      <% if @product.errors.any? %>
+        <div class="alert alert-danger" role="alert">
+          <% @product.errors.full_messages.each do |msg| %>
+            <div><%= '* ' + msg %></div>
+          <% end %>
+        </div>
+      <% end %> 
+
+      <div class='m-3'>
+        <%= form.label "اسم المنتج", class: 'form-label' %>
+        <%= form.text_field :name , auto_complete:false, class: 'form-control' %>
+      </div>
+
+
+      <div class='m-3'>
+        <%= form.label "سعر المنتج", class: 'form-label' %>
+        <%= form.text_field :price, class: 'form-control' %>
+      </div>
+
+      <div class='m-3'>
+        <%= form.label "الحالة", class: 'form-label' %>
+        <%= form.select :active, [["متاح", true], ["غير متاح" , false]] ,class: 'form-control' %>
+      </div> 
+
+      <div class='m-3'>
+        <%= form.label "وصف بسيط للمنتج", class: 'form-label' %>
+        <%= form.text_area :description, class: 'form-control' %>
+      </div>
+
+      <div class='m-3 mb-3'>
+        <%= form.submit 'حفظ', class: 'btn btn-success' %>
+        <%= link_to "عودة", products_path , class: 'btn btn-primary' %>
+      </div>
+
+
+    <%end%>
+
+  </div>
+</div>

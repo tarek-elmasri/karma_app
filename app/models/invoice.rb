@@ -1,6 +1,8 @@
 class Invoice < ApplicationRecord
   include InvoicesTestable
   belongs_to :client , counter_cache: :invoices_count
+  has_many :invoice_products
+  has_many :products , through: :invoice_products
   has_many :payments
 
   validates :number, presence: {message:'رقم الفاتورة مطلوب'}, numericality: {only_integer:true, message: 'رقم الفاتورة يجب ان يكون رقم صحيح'}

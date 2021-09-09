@@ -5,6 +5,54 @@
 <h6>تاريخ الفاتورة : <%= @invoice.date %></h6>
 <h6>اجمالي المدفوعات : <%= @invoice.paid %></h6>
 <h6>المبلغ المتبقي في الفاتورة : <%= @invoice.value - @invoice.paid %></h6>
+<div class="mt-3">
+  <%= link_to "اضافة المنتجات" , new_invoice_invoice_product_path(invoice_id: @invoice.id) , class: 'btn btn-sm btn-danger' unless invoice_value_matches_products_value?(@invoice) %>
+  <div class='table-responsive mt-2'>
+    <table class='table table-success table-hover'>
+      <thead class='table-dark'>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">المنتجات</th>
+          <th scope="col">الكمية</th>
+          <th scope="col">سعر الوحدة</th>
+          <th scope="col">المجموع الكلي</th>
+          <th scope="col">الضريبة المضافة</th>
+          <th scope="col">الاجمالي</th>
+          <th scope='col'></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each_with_index do |invoice_product, idx|%>
+          <tr>
+            <th scope='row'><%= idx+1 %></th>
+            <td><%= invoice_product.product.name%> </td>
+            <td><%= invoice_product.quantity%></td>
+            <td><%= detach_vat(invoice_product.product.price)%></td>
+            <td><%= detach_vat(invoice_product.product.price * invoice_product.quantity) %></td>
+            <td><%= extract_vat(invoice_product.product.price * invoice_product.quantity) %></td>
+            <td><%= (invoice_product.product.price * invoice_product.quantity).to_f.round(2) %></td>
+            <td>
+              <%= link_to "تعديل", edit_invoice_invoice_product_path(@invoice,invoice_product), class: 'btn btn-outline-primary btn-sm' %>
+              <%= link_to "حذف", invoice_invoice_product_path(@invoice,invoice_product),method: :delete, class: 'btn btn-outline-danger btn-sm' %>
+            </td>
+          </tr>
+        <%end%>    
+      </tbody>
+      <tfoot class='table-dark'>
+      <tr>
+        <th>#</th>
+        <td></td>
+        <td><%= @products.sum(:quantity) %></td>
+        <td></td>
+        <td><%= detach_vat(calculate_total_value(@products)) %></td>
+        <td><%= extract_vat(calculate_total_value(@products)) %></td>
+        <td><%= calculate_total_value(@products) %></td>
+        <td></td>
+      </tr>
+    </tfoot>
+    </table>
+  </div>
+</div>
 <div class='mt-3'>
   <div class='mt-2 px-2'>
     <%= link_to "اضافة سداد" , new_payment_path(invoice_id: @invoice.id) , class: 'btn btn-sm btn-success' %>

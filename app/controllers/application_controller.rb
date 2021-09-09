@@ -13,4 +13,5 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, alert: 'الرجاء تسجيل الدخول' unless Current.user.present?
   end
 
+
 end
