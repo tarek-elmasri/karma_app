@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   def sign_in 
     @user = User.find_by(email: params[:user][:email])
     if @user&.authenticate(params[:user][:password])
-      session[:user_id] = @user.id 
+      session[:user] = @user.id 
       Current.user = @user
       redirect_to main_path
     else
@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
+    session[:user] = nil
     redirect_to root_path, notice: 'تم تسجيل الخروج بنجاح'
   end
 
